@@ -1,8 +1,13 @@
+/**
+ * This is a simple implementation of the Snake game in
+ * JavaScript.
+ */
+
 
 /**
+ * @param {number} width Represents the width of the board.
+ * @param {number} height Represents the height of the board.
  * @struct @constructor
- * @param {number} width Represent the width of the board
- * @param {number} height Represent the height of the board
  */
 function Board(width, height) {
   this.width_ = width;
@@ -12,7 +17,13 @@ function Board(width, height) {
   for (var i = 0; i < height; i++) {
   	this.board_[i] = new Array(width);
   };
+
+  /**
+   * @private {?Snake}
+   */
+  this.snake_ = null;
 }
+
 
 /**
  * Check if the x and y coordinates is inside a Snake's body.
@@ -21,15 +32,19 @@ function Board(width, height) {
  * @return {boolean}
  */
 Board.prototype.isSnakeBody = function(x, y) {
-  var flag = false;
+  var result = false;
   this.snake_.body.forEach(function (bodyPart) {
   	if ((x === bodyPart.x) && (y === bodyPart.y)) {
-  	  flag = true;
+  	  result = true;
   	}
   })
-  return flag;
-}
+  return result;
+};
 
+
+/**
+ * Prints the current board.
+ */
 Board.prototype.print = function() {
   for (var y = 0; y < this.height_; y++) {
   	var row = '';
@@ -43,27 +58,30 @@ Board.prototype.print = function() {
     console.log(row);
   };
   console.log('____________________________________');
-}
+};
 
-Board.prototype.addSnake = function(snake) {
-  this.snake_ = snake;
-}
 
 /**
+ * Adds a snake to the board.
+ * @param {Snake} snake
+ */
+Board.prototype.addSnake = function(snake) {
+  this.snake_ = snake;
+};
+
+
+/**
+ * Initializes the board with several eatable objects
  * @param {number} numObjs
  */
 Board.prototype.initialize = function(numObjs) {
-
+  var self = this;
   this.pieces_ = [];
-
-  function checkExistence(x ,y) {
-  	return true;
-  };
 
   while (numObjs) {
   	var x = Math.floor(Math.random() * (this.width_));
   	var y = Math.floor(Math.random() * (this.height_));
-  	if (checkExistence(x, y)) {
+  	if (!this.board_[x][y]) {
   	  this.board_[x][y] = new Piece();
   	  this.pieces_.push({x: x, y: y});
   	  numObjs--;
@@ -71,14 +89,29 @@ Board.prototype.initialize = function(numObjs) {
   }
 };
 
+/**
+ * A piece is an eatable piece by the Snake.
+ * @struct @constructor
+ */
 function Piece() {
   this.char_ = '#';
   this.point = 1;
 }
+
+
+/**
+ * Prints the current piece.
+ */
 Piece.prototype.toString = function() {
   return this.char_;
-}
+};
 
+
+/**
+ * A star is a special piece.
+ * @struct @constructor
+ * @extends {Piece}
+ */
 function Star() {
   this.char_ = '*'
   this.point = 2;
@@ -86,7 +119,12 @@ function Star() {
 Star.prototype = new Piece();
 
 
-// Controls how the game runs
+/*
+ * Engine controls how the game runs
+ * @param {Board} board
+ * @param {Snake} snake
+ * @struct @constructor
+ */
 function Engine(board, snake) {
   this.board_ = board;
   this.snake_ = snake;
@@ -99,19 +137,29 @@ function Engine(board, snake) {
   this.currentSnakeDirection_ = 0;
 }
 
+
 /**
  * Direction input from the user
+ * @param {number} direction
  */
 Engine.prototype.input = function(direction) {
   this.currentSnakeDirection_ = direction;
 }
 
+
+/**
+ * Runs the game with update every 1 second.
+ */
 Engine.prototype.run = function() {
   this.board_.addSnake(this.snake_);
   this.board_.print();
   setInterval(this.update.bind(this), 1000);
 }
 
+
+/**
+ * Updates the state of the game.
+ */
 Engine.prototype.update = function() {
   this.snake_.body.pop();
   var head = this.snake_.body[0];
@@ -130,11 +178,21 @@ Engine.prototype.update = function() {
   }
 }
 
+
+/**
+ * Displays game over to the client.
+ */
 Engine.prototype.gameOver = function() {
   console.log('GAME OVER !!!!!!!!!!!!');
 }
 
+
 /**
+ * @param {number} length Length of the snake.
+ * @param {number} startX The starting x coordinate for the
+ *     snake.
+ * @param {number} startY The starting y cooridnate for the
+ *     snake.
  * @struct @constructor
  */
 function Snake(length, startX, startY) {
