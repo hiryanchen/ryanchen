@@ -9,7 +9,23 @@ var partials = require('express-partials');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
+// Setup Ghost
+var ghost = require('./ghost-app/ghost-in-the-middle');
+
 var app = express();
+
+// Ghost setup
+/*
+ghost().then(function (ghostServer) {
+  console.log(ghostServer.config.paths.subdir);
+  app.use(ghostServer.config.paths.subdir, ghostServer.rootApp);
+
+  ghostServer.start(app);
+});
+*/
+app.use('/blog', ghost({
+  config: path.join(__dirname, 'ghost-app/config.js')
+}));
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
