@@ -17,3 +17,8 @@ a {
 footer {
   margin: 30px; //top
 }
+
+.carousel-caption {
+  text-shadow: 2px 2px #000000;
+  top: 40%;
+}
