@@ -7,3 +7,13 @@ a {
   height: 50px;
   border-radius: 25px 25px 25px 25px;
 }
+
+.bannerAd {
+  margin: auto;
+  width: 728px;
+  height: 90px;
+}
+
+footer {
+  margin: 30px; //top
+}
