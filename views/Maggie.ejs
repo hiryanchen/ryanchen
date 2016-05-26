@@ -1,9 +1,34 @@
 <script>
-    document.body.style.backgroundColor = "black"; 
-    //var adContainers = document.getElementsByClassName('bannerAd');
-    //adContainers[0].style = 'display:none';
+    document.body.style.backgroundColor = "black";
 </script>
+<style>
+    .video-container {
+        position: relative;
+        padding-bottom: 56.25%;
+        padding-top: 30px; height: 0; overflow: hidden;
+    }
+     
+    .video-container iframe,
+    .video-container object,
+    .video-container embed {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+    }
+</style>
 <center>
   <h3>Maggie, 希望你早日来到加州噢!</h3>
-  <iframe width="800" height="600" src="https://www.youtube.com/embed/3CEZKnaqhiU" frameborder="0" allowfullscreen></iframe>
+  <div id='videoContainer'><iframe width="800" height="600" src="https://www.youtube.com/embed/3CEZKnaqhiU" frameborder="0" allowfullscreen></iframe></div>
 </center>
+<script src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+<script>
+    function isMobile() {
+      return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    }
+    if (isMobile()) {
+      var videoContainer = $('#videoContainer');
+      videoContainer.addClass('video-container');
+    }
+</script>
