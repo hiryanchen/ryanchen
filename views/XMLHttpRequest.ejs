@@ -1,0 +1,36 @@
+<script type="text/javascript">
+  var oReq = new XMLHttpRequest();
+
+  oReq.addEventListener("progress", updateProgress);
+  oReq.addEventListener("load", transferComplete);
+  oReq.addEventListener("error", transferFailed);
+  oReq.addEventListener("abort", transferCanceled);
+
+  //var url="https://code.jquery.com/jquery-3.0.0.min.js";
+  var url = "http://localhost:90"
+  oReq.open("GET", url);
+  oReq.send();
+
+  // progress on transfers from the server to the client (downloads)
+  function updateProgress (oEvent) {
+    if (oEvent.lengthComputable) {
+      var percentComplete = oEvent.loaded / oEvent.total;
+      // ...
+    } else {
+      // Unable to compute progress information since the total size is unknown
+    }
+  }
+
+  function transferComplete(evt) {
+    //console.log(this.responseText);
+    console.log(this.status);
+  }
+
+  function transferFailed(evt) {
+    console.log(this.status);
+  }
+
+  function transferCanceled(evt) {
+    console.log("The transfer has been canceled by the user.");
+  }
+</script>

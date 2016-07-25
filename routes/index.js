@@ -7,12 +7,8 @@ router.get('/', function(req, res, next) {
   res.render('index', { title: myName, name: myName });
 });
 
-router.get('/me', function(req, res, next) {
-  res.render('me', {name: myName});
-});
-
-router.get('/Maggie', function(req, res, next) {
-  res.render('Maggie');
+router.get('/:path', function(req, res, next) {
+  res.render(req.params.path, {name: myName});
 });
 
 router.get('/redirect.mpd', function (req, res, next) {
